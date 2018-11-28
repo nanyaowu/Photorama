@@ -11,6 +11,7 @@ import UIKit
 class PhotoInfoViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
+    //@IBOutlet var timesViewed: UILabel!
     
     var photo: Photo! {
         didSet {
@@ -30,6 +31,18 @@ class PhotoInfoViewController: UIViewController {
                 print("Error fetching image for photo: \(error)")
             }
         }
+        photo.timesViewed += 1
+        store.saveContextIfNeeded()
+
+        let label = UILabel()
+        label.text = "\(photo.timesViewed) views"
+        label.backgroundColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(label)
+        
+        label.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+        label.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -8).isActive = true
+        
     }
     
 }

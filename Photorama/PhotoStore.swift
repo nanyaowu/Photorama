@@ -120,6 +120,8 @@ class PhotoStore {
         return .success(image)
     }
     
+    // don't understand what completion is for
+    
     func fetchAllPhotos(completion: @escaping (PhotosResult) -> Void) {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         let sortByDateTaken = NSSortDescriptor(key: #keyPath(Photo.dateTaken), ascending: true)
@@ -133,6 +135,15 @@ class PhotoStore {
             } catch {
                 completion(.failure(error))
             }
+        }
+    }
+    
+    func saveContextIfNeeded() {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            print("Save context")
+            try? context.save()
+            
         }
     }
 }
